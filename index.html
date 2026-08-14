@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="郝安达｜AI 产品经理个人作品集">
+  <title>郝安达｜AI 产品经理</title>
+  <style>
+    :root { --paper:#faf8f1; --ink:#181818; --muted:#999790; --line:rgba(24,24,24,.12); --yellow:#f7dc7a; --blue:#227fc1; --sky:#eaf4fa; --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif; --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; background:var(--paper); }
+    body { margin:0; overflow-x:hidden; color:var(--ink); background:var(--paper); font:16px/1.7 var(--sans); }
+    body:has(dialog[open]) { overflow:hidden; }
+    button { font:inherit; }
+    button:focus-visible,a:focus-visible { outline:3px solid var(--blue); outline-offset:4px; }
+    .grid-canvas { background-color:var(--paper); background-image:linear-gradient(rgba(24,24,24,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(24,24,24,.05) 1px,transparent 1px); background-attachment:fixed; background-position:0 0; background-size:32px 32px; }
+    .skip-link { position:fixed; z-index:30; top:12px; left:14px; padding:7px 12px; background:var(--ink); color:#fff; transform:translateY(-190%); }
+    .skip-link:focus { transform:translateY(0); }
+    .site-masthead { position:absolute; z-index:2; top:30px; left:50%; width:min(1120px,calc(100% - 80px)); color:var(--muted); font:12px/1.2 var(--mono); letter-spacing:.08em; transform:translateX(-50%); }
+    .site-masthead a { color:inherit; text-decoration:none; }
+    .site-masthead a:hover { color:var(--ink); }
+    .hero-stage { min-height:100svh; display:grid; align-items:center; padding:110px 0 72px; }
+    .hero-stage__inner,.portfolio-stage { width:min(760px,calc(100% - 80px)); margin-inline:auto; }
+    .hero-stage__inner { position:relative; }
+    .eyebrow { display:flex; align-items:center; gap:9px; margin:0; color:var(--muted); font:700 12px/1.2 var(--mono); letter-spacing:.11em; }
+    .eyebrow::before { width:19px; height:3px; background:var(--yellow); content:""; }
+    h1,h2,h3,p { margin:0; }
+    h1,h2,h3 { letter-spacing:-.02em; line-height:.94; }
+    .hero-stage h1 { position:relative; z-index:1; max-width:630px; margin:18px 0 30px; font-size:clamp(80px,9.2vw,148px); font-weight:730; }
+    .hero-title-line { display:block; }
+    .hero-stage__roles { position:relative; z-index:1; display:flex; flex-wrap:wrap; gap:10px 15px; color:var(--muted); font:13px/1.5 var(--mono); letter-spacing:.1em; }
+    .hero-stage__roles span + span::before { margin-right:15px; color:var(--yellow); content:"/"; }
+    .hero-stage__art { position:absolute; z-index:0; top:0; right:-48px; width:480px; height:clamp(390px,32vw,520px); margin:0; pointer-events:none; }
+    .hero-stage__art img { display:block; width:100%; height:100%; object-fit:contain; object-position:center bottom; }
+    .scroll-cue { margin-top:65px; color:var(--muted); font:13px var(--mono); letter-spacing:.08em; }
+    .portfolio-section { min-height:100svh; padding:96px 0 150px; }
+    .portfolio-tabs { display:grid; grid-template-columns:repeat(5,132px); justify-content:center; gap:clamp(8px,1.5vw,18px); margin-bottom:43px; }
+    .portfolio-tabs button { position:relative; z-index:0; display:grid; width:132px; height:54px; padding:0; border:0; place-items:center; isolation:isolate; background:transparent; color:#d0cec8; font-size:clamp(22px,2.3vw,34px); font-weight:700; letter-spacing:-.02em; line-height:1; white-space:nowrap; cursor:pointer; transition:color .18s ease; }
+    .portfolio-tabs button::after { position:absolute; z-index:-1; right:5px; bottom:calc((100% - 1em) / 2); left:5px; height:.45em; background:var(--yellow); content:""; transform:scaleX(0); transform-origin:left; transition:transform .22s cubic-bezier(.22,1,.36,1); }
+    .portfolio-tabs button:hover,.portfolio-tabs button[aria-selected="true"] { color:var(--ink); }
+    .portfolio-tabs button:hover::after,.portfolio-tabs button[aria-selected="true"]::after { transform:scaleX(1); }
+    .portfolio-panel[hidden] { display:none; }
+    .panel-heading { display:block; margin-bottom:27px; }
+    .panel-heading h2 { display:none; }
+    .panel-heading > p { max-width:360px; margin-top:12px; color:var(--muted); font-size:14px; }
+    .company-card { display:grid; grid-template-columns:minmax(0,1fr) 104px; align-items:center; width:min(360px,100%); margin-top:12px; padding:15px 17px; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.72); color:var(--ink); text-align:left; cursor:pointer; transition:transform .2s ease,box-shadow .2s ease,background .2s ease; }
+    .company-card:hover { background:#fffefb; box-shadow:5px 5px 0 var(--yellow); transform:translate(-2px,-2px); }
+    .company-card__label { position:relative; z-index:0; display:block; width:fit-content; font-size:18px; font-weight:700; letter-spacing:-.01em; line-height:1.1; }
+    .company-card__label::after { position:absolute; z-index:-1; right:0; bottom:.04em; left:0; height:.45em; background:var(--yellow); content:""; transform:scaleX(0); transform-origin:left center; transition:transform .28s cubic-bezier(.22,1,.36,1); }
+    .company-card:hover .company-card__label::after { transform:scaleX(1); }
+    .company-card__meta { display:block; margin-top:7px; color:var(--muted); font:12px/1.55 var(--mono); }
+    .company-card__logo { width:100px; height:62px; object-fit:contain; object-position:right center; }
+    .education-grid,.text-grid { display:grid; gap:18px; }
+    .education-grid { grid-template-columns:1fr; }
+    .info-card { position:relative; display:grid; grid-template-columns:minmax(0,1fr) minmax(280px,.94fr); height:302px; min-height:0; padding:0; overflow:hidden; border:1px solid var(--line); border-radius:22px; background:#fff; transition:transform .24s cubic-bezier(.22,1,.36,1),box-shadow .24s ease; }
+    .info-card:hover { z-index:1; box-shadow:8px 8px 0 var(--yellow); transform:translate(-3px,-4px); }
+    .info-card__copy { display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:38px 44px; }
+    .info-card__art { display:grid; min-height:0; place-items:center; padding:20px; background:#fff; }
+    .info-card__art img { display:block; width:100%; height:100%; max-height:280px; object-fit:contain; }
+    .info-card:first-child .info-card__art img { transform:scale(1.18); }
+    .text-card { min-height:320px; padding:29px; border:1px solid var(--line); border-radius:20px; background:rgba(255,255,255,.68); }
+    .card-number { color:var(--muted); font:700 12px var(--mono); letter-spacing:.1em; }
+    .info-card h3,.text-card h3 { margin:39px 0 17px; font-size:40px; font-weight:680; }
+    .info-card h3 { position:relative; z-index:0; width:fit-content; max-width:100%; margin:0 0 17px; }
+    .info-card h3::after { position:absolute; z-index:-1; right:0; bottom:.04em; left:0; height:.45em; background:var(--yellow); content:""; transform:scaleX(0); transform-origin:left center; transition:transform .28s cubic-bezier(.22,1,.36,1); }
+    .info-card:hover h3::after { transform:scaleX(1); }
+    .info-card__meta { color:#55544f; font:13px/1.75 var(--mono); }
+    .info-card__body,.text-card p { margin-top:21px; color:#42413d; font-size:15px; line-height:1.67; }
+    .project-list { display:grid; gap:18px; }
+    .project-card { width:100%; height:302px; min-height:0; display:grid; grid-template-columns:1fr 1fr; padding:0; overflow:hidden; border:1px solid var(--line); border-radius:22px; background:rgba(255,255,255,.76); color:var(--ink); text-align:left; cursor:pointer; transition:transform .2s ease,box-shadow .2s ease,background .2s ease; }
+    .project-card:hover { z-index:1; background:#fffefb; box-shadow:9px 9px 0 var(--yellow); transform:translate(-4px,-5px); }
+    .project-card--reverse .project-card__media { order:2; }
+    .project-card__media { position:relative; display:grid; min-height:300px; place-items:center; overflow:hidden; background:#fff; }
+    .project-card__media img { display:block; width:100%; height:100%; object-fit:cover; object-position:left top; }
+    .project-card__media--illustration img { padding:26px; object-fit:contain; object-position:center; }
+    .project-card__media--shelf img { padding:46px 70px; transform:translateY(-58px) scale(.75); }
+    .project-card[data-project="mcs"] .project-card__media--illustration img,.project-card[data-project="medical"] .project-card__media--illustration img { transform:scale(.86); }
+    .project-card[data-project="ai-knowledge"] .project-card__media--illustration img { transform:translateY(-18px) scale(.86); }
+    .project-card[data-project="echonote"] .project-card__media--illustration img,.project-card[data-project="doormind"] .project-card__media--illustration img { transform:translateY(-28px) scale(.68); }
+    .project-card[data-project="echonote"] .project-card__media--illustration img { transform:translateY(-98px) scale(.62); }
+    .project-card[data-project="doormind"] .project-card__media--illustration img { transform:translateY(-108px) scale(.56); }
+    .project-card[data-project="recruitment"] .project-card__media--illustration img { transform:translateY(-94px) scale(.68); }
+    .project-card__placeholder { color:#868780; background:#fff; font:13px/1.75 var(--mono); letter-spacing:.1em; }
+    .project-card__placeholder::after { position:absolute; right:22px; bottom:18px; color:rgba(24,24,24,.09); font:800 82px/.8 var(--sans); letter-spacing:-.1em; content:attr(data-number); }
+    .project-card__copy { display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:38px 42px; }
+    .project-card__copy strong { position:relative; z-index:0; display:block; width:fit-content; max-width:100%; margin-top:24px; font-size:40px; font-weight:700; letter-spacing:-.02em; line-height:1.02; }
+    .project-card__copy strong::after { position:absolute; z-index:-1; right:0; bottom:.04em; left:0; height:.45em; background:var(--yellow); content:""; transform:scaleX(0); transform-origin:left center; transition:transform .28s cubic-bezier(.22,1,.36,1); }
+    .project-card:hover .project-card__copy strong::after { transform:scaleX(1); }
+    .project-card__copy > span:not(.card-number) { margin-top:15px; color:#55544f; font-size:15px; line-height:1.6; }
+    .project-card__copy em { margin-top:29px; color:var(--muted); font:13px var(--mono); font-style:normal; }
+    .project-card[disabled] { opacity:.45; cursor:not-allowed; }
+    .project-card[disabled]:hover { box-shadow:none; transform:none; }
+    .text-card { min-height:240px; }
+    .text-card h3 { margin-top:18px; }
+    .project-dialog { width:min(960px,calc(100% - 80px)); max-height:calc(100svh - 70px); padding:0; border:0; background:transparent; }
+    .project-dialog::backdrop { background:rgba(17,17,17,.53); backdrop-filter:blur(5px); }
+    .project-dialog__sheet { position:relative; max-height:calc(100svh - 70px); overflow:auto; padding:58px; border-radius:24px; background:var(--paper); box-shadow:0 28px 90px rgba(0,0,0,.22); }
+    .project-dialog__close { position:absolute; top:22px; right:23px; width:40px; height:40px; border:1px solid var(--line); border-radius:50%; background:#fffef9; color:var(--ink); font-size:28px; line-height:1; cursor:pointer; }
+    .project-dialog h2 { max-width:690px; margin:15px 0 32px; font-size:40px; font-weight:720; }
+    .dialog-media { margin:0 0 30px; overflow:hidden; border:1px solid var(--line); border-radius:16px; }
+    .dialog-media:empty { display:none; }
+    .dialog-media img { display:block; width:100%; height:auto; }
+    .dialog-body { max-width:710px; font-size:18px; letter-spacing:-.025em; line-height:1.75; }
+    .dialog-body p + p { margin-top:17px; }
+    .dialog-body strong { color:var(--blue); }
+    .dialog-body a { display:inline-block; margin-top:22px; color:var(--blue); font-weight:700; text-underline-offset:4px; }
+    .site-footer { width:min(760px,calc(100% - 80px)); display:grid; grid-template-columns:1fr auto 1fr; align-items:center; margin:0 auto; padding:24px 0 36px; color:var(--muted); border-top:1px solid var(--line); font:12px var(--mono); }
+    .site-footer__contact { display:flex; gap:9px; white-space:nowrap; }
+    .site-footer__contact a { color:inherit; text-decoration:none; }
+    .site-footer__contact a:hover { color:var(--ink); text-decoration:underline; text-underline-offset:4px; }
+    .site-footer > :last-child { justify-self:end; }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition-duration:.01ms !important; } }
+  </style>
+</head>
+<body class="grid-canvas">
+  <a class="skip-link" href="#portfolio">跳至项目内容</a>
+  <header class="site-masthead"><span>HAO ANDA / PORTFOLIO</span></header>
+  <main>
+    <section class="hero-stage" id="profile" aria-labelledby="profile-title">
+      <div class="hero-stage__inner">
+        <p class="eyebrow">HAO ANDA</p>
+        <h1 id="profile-title">Anda<span class="hero-title-line">makes</span><span class="hero-title-line">things.</span></h1>
+        <p class="hero-stage__roles"><span>AI PRODUCT MANAGER</span><span>AI BUILDER</span><span>PRODUCT THINKER</span></p>
+        <figure class="hero-stage__art" aria-label="挥手的人物和小狗插画"><img src="人物抠图/boy-yellow-top-navy-trousers-dog-transparent.png" alt="穿黄色上衣的挥手人物和小狗插画"></figure>
+        <p class="scroll-cue">↓ 往下滑</p>
+      </div>
+    </section>
+
+    <section class="portfolio-section" id="portfolio" aria-label="个人作品集内容">
+      <div class="portfolio-stage">
+        <div class="portfolio-tabs" role="tablist" aria-label="作品集栏目">
+          <button type="button" role="tab" id="tab-education" aria-selected="true" aria-controls="panel-education" data-tab="education">教育经历</button>
+          <button type="button" role="tab" id="tab-internships" aria-selected="false" aria-controls="panel-internships" data-tab="internships">实习经历</button>
+          <button type="button" role="tab" id="tab-projects" aria-selected="false" aria-controls="panel-projects" data-tab="projects">项目经历</button>
+          <button type="button" role="tab" id="tab-strengths" aria-selected="false" aria-controls="panel-strengths" data-tab="strengths">个人素质</button>
+          <button type="button" role="tab" id="tab-skills" aria-selected="false" aria-controls="panel-skills" data-tab="skills">个人技能</button>
+        </div>
+
+        <section class="portfolio-panel" id="panel-education" role="tabpanel" aria-labelledby="tab-education" data-panel="education">
+          <div class="panel-heading"><div><p class="eyebrow">Education</p><h2>学习经历</h2></div><p>从工程与技术基础出发，继续通过计算机科学和产品实践理解复杂问题。</p></div>
+          <div class="education-grid">
+            <article class="info-card"><div class="info-card__copy"><h3>悉尼大学 · QS 28</h3><p class="info-card__meta">计算机科学<br>2025.08 — 至今</p><p class="info-card__body">主修数据挖掘与机器学习、信息技术项目管理、数据库管理系统、基于模型的软件工程、数据结构与算法、多媒体设计与创作。</p></div><figure class="info-card__art"><img src="场景插画/oil-visual/boy-walking-to-school-yellow-navy-transparent.png" alt="穿黄色上衣、深蓝裤子且与小狗同行的人物插画"></figure></article>
+            <article class="info-card"><div class="info-card__copy"><h3>西安电子科技大学 · 211</h3><p class="info-card__meta">微电子科学与工程<br>2019.09 — 2023.06</p><p class="info-card__body">本科阶段建立工程与技术基础，也形成了以问题拆解、数据和系统视角理解产品的工作方式。</p></div><figure class="info-card__art"><img src="人物抠图/生成图/boy-yellow-top-gray-laptop-yellow-coffee-v3.png" alt="使用笔记本电脑并配有黄色咖啡杯的人物插画"></figure></article>
+          </div>
+        </section>
+
+        <section class="portfolio-panel" id="panel-internships" role="tabpanel" aria-labelledby="tab-internships" data-panel="internships" hidden>
+          <div class="panel-heading"><div><p class="eyebrow">Internship</p><h2>实习经历</h2></div><button class="company-card" type="button" data-company="inovance" aria-label="查看汇川技术公司介绍"><span><strong class="company-card__label">汇川技术</strong><span class="company-card__meta">数字化事业部<br>实习时长 · 2025.12 — 2026.03</span></span><img class="company-card__logo" src="assets/inovance-logo.png" alt="汇川技术 Logo"></button></div>
+          <div class="project-list">
+            <button class="project-card" type="button" data-project="digital-shelf"><span class="project-card__media project-card__media--illustration project-card__media--shelf"><img src="人物抠图/生成图/boy-dog-tidying-shelf-v2.png" alt="人物与小狗一起整理货架的插画"></span><span class="project-card__copy"><span class="card-number">INTERNSHIP / 01</span><strong>数字货架</strong><span>产品信息结构化、角色化检索与经营数据可视化。</span><em>查看项目 →</em></span></button>
+            <button class="project-card project-card--reverse" type="button" data-project="ai-knowledge"><span class="project-card__media project-card__media--illustration"><img src="人物抠图/生成图/boy-dog-smart-robot-conversation-v2.png" alt="人物、小狗与智能机器人对话的插画"></span><span class="project-card__copy"><span class="card-number">INTERNSHIP / 02</span><strong>AI 智能机器人问答</strong><span>双知识库、问题路由、评测与持续优化。</span><em>查看项目 →</em></span></button>
+            <button class="project-card" type="button" data-project="recruitment"><span class="project-card__media project-card__media--illustration"><img src="人物抠图/生成图/boy-dog-document-sorting-v1.png" alt="人物与小狗整理候选人资料的插画"></span><span class="project-card__copy"><span class="card-number">INTERNSHIP / 03</span><strong>招聘初筛工作流</strong><span>从资料收集到面试协同的招聘自动化闭环。</span><em>查看项目 →</em></span></button>
+          </div>
+        </section>
+
+        <section class="portfolio-panel" id="panel-projects" role="tabpanel" aria-labelledby="tab-projects" data-panel="projects" hidden>
+          <div class="panel-heading"><div><p class="eyebrow">Personal Work</p><h2>项目经历</h2></div><p>从真实使用场景出发，把复杂问题收束成可验证的产品体验。</p></div>
+          <div class="project-list">
+            <button class="project-card project-card--reverse" type="button" data-project="mcs"><span class="project-card__media project-card__media--illustration"><img src="人物抠图/生成图/boy-dog-course-selection-v2.png" alt="人物为课程表选择课程、小狗相伴的插画"></span><span class="project-card__copy"><span class="card-number">PERSONAL / 01</span><strong>MCS 智能选课顾问 Agent</strong><span>课程知识库、AI 推荐与规则校验。</span><em>查看项目 →</em></span></button>
+            <button class="project-card" type="button" data-project="medical"><span class="project-card__media project-card__media--illustration"><img src="人物抠图/生成图/boy-doctor-dog-heartbeat-v1.png" alt="医生为小狗听诊的插画"></span><span class="project-card__copy"><span class="card-number">PERSONAL / 02</span><strong>医疗 AI 治理平台</strong><span>临床数据质控、风险评估与可追溯协作。</span><em>查看项目 →</em></span></button>
+            <button class="project-card project-card--reverse" type="button" data-project="echonote"><span class="project-card__media project-card__media--illustration"><img src="人物抠图/生成图/boy-dog-podcast-whiteboard-v1.png" alt="人物与小狗围绕播客白板学习的插画"></span><span class="project-card__copy"><span class="card-number">PERSONAL / 03</span><strong>EchoNote</strong><span>将播客内容转为可检索、可复习的学习笔记。</span><em>查看项目 →</em></span></button>
+            <button class="project-card" type="button" data-project="doormind"><span class="project-card__media project-card__media--illustration"><img src="人物抠图/生成图/boy-dog-forgotten-item-reminder-v3.png" alt="人物、小狗和背包的遗忘提醒插画"></span><span class="project-card__copy"><span class="card-number">PERSONAL / 04</span><strong>DoorMind（忘了么）</strong><span>地点离开触发的智能提醒产品。</span><em>查看项目 →</em></span></button>
+            <button class="project-card" type="button" disabled><span class="project-card__media project-card__placeholder" data-number="05">05<br>IN PROGRESS</span><span class="project-card__copy"><span class="card-number">PERSONAL / 05</span><strong>个人助手</strong><span>正在整理</span></span></button>
+            <button class="project-card project-card--reverse" type="button" disabled><span class="project-card__media project-card__placeholder" data-number="06">06<br>IN PROGRESS</span><span class="project-card__copy"><span class="card-number">PERSONAL / 06</span><strong>工作台</strong><span>正在整理</span></span></button>
+          </div>
+        </section>
+
+        <section class="portfolio-panel" id="panel-strengths" role="tabpanel" aria-labelledby="tab-strengths" data-panel="strengths" hidden>
+          <div class="panel-heading"><div><p class="eyebrow">Strengths</p><h2>个人素质</h2></div><p>把问题看清楚，再把过程组织成让人愿意使用的产品。</p></div>
+          <div class="text-grid">
+            <article class="text-card"><p class="card-number">01</p><h3>结构化思考</h3><p>从用户问题、约束条件到可验证方案，持续梳理复杂信息与决策路径。</p></article>
+            <article class="text-card"><p class="card-number">02</p><h3>数据治理</h3><p>关注数据的来源、完整性、权限与维护机制，让产品能力建立在可靠信息之上。</p></article>
+            <article class="text-card"><p class="card-number">03</p><h3>跨团队协作</h3><p>能在业务、产品、设计与技术之间对齐目标，推动方案进入真实工作流。</p></article>
+            <article class="text-card"><p class="card-number">04</p><h3>评测意识</h3><p>为 AI 能力设定边界、测试场景与反馈闭环，让迭代可以被衡量。</p></article>
+          </div>
+        </section>
+
+        <section class="portfolio-panel" id="panel-skills" role="tabpanel" aria-labelledby="tab-skills" data-panel="skills" hidden>
+          <div class="panel-heading"><div><p class="eyebrow">Skills</p><h2>个人技能</h2></div><p>把产品方法、数据能力和 AI 工作流组合成可落地的实践。</p></div>
+          <div class="text-grid">
+            <article class="text-card"><p class="card-number">01</p><h3>产品设计</h3><p>用户调研、需求拆解、PRD、信息架构、原型设计与 Web MVP。</p></article>
+            <article class="text-card"><p class="card-number">02</p><h3>数据与分析</h3><p>SQL、Python、数据清洗、指标设计与业务看板。</p></article>
+            <article class="text-card"><p class="card-number">03</p><h3>AI 产品能力</h3><p>RAG、Agent、知识库、Workflow Design、评测与 Bad Case 分析。</p></article>
+            <article class="text-card"><p class="card-number">04</p><h3>技术协作</h3><p>HTML/CSS、原型实现、iOS MVP，以及与工程团队共同推进落地。</p></article>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><span>© 2026 HAO ANDA</span><span class="site-footer__contact">联系方式 · <a href="tel:18632558659">186 3255 8659</a> · <a href="mailto:haoad2024@163.com">haoad2024@163.com</a></span><span>AI PRODUCT MANAGER / PORTFOLIO</span></footer>
+
+  <dialog class="project-dialog" id="project-dialog" aria-labelledby="dialog-title">
+    <article class="project-dialog__sheet">
+      <button class="project-dialog__close" type="button" aria-label="关闭项目详情">×</button>
+      <p class="eyebrow" id="dialog-type"></p>
+      <h2 id="dialog-title"></h2>
+      <div class="dialog-media" id="dialog-media"></div>
+      <div class="dialog-body" id="dialog-body"></div>
+    </article>
+  </dialog>
+
+  <script>
+    (function () {
+      var tabButtons = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('[role="tabpanel"]'));
+      var dialog = document.querySelector('#project-dialog');
+      var dialogType = document.querySelector('#dialog-type');
+      var dialogTitle = document.querySelector('#dialog-title');
+      var dialogMedia = document.querySelector('#dialog-media');
+      var dialogBody = document.querySelector('#dialog-body');
+      var closeButton = document.querySelector('.project-dialog__close');
+      var projectDetails = {
+        inovance: { type:'COMPANY', title:'汇川技术', paragraphs:['深圳市汇川技术股份有限公司成立于2003年，是一家全球领先、创新驱动的工业科技集团。汇川技术依托在自动化、数字化、智能化领域的深厚技术积淀，构建起工业自动化与数字化、新能源汽车动力系统、智能机器人、数字能源四大技术同源、协同发展的业务生态，致力于为全球客户提供智能、高效、绿色、安全的综合产品和解决方案。','公司现有员工2万余人，总部位于深圳，生产基地位于苏州、岳阳、南京、上海、济南、嘉兴、长春、匈牙利等地，并在全球30多个国家和地区设有常驻机构和服务中心。2025年公司实现营业总收入451亿元，较上年同期增长22%；实现营业利润50.5亿元，较上年同期增长18%。','汇川技术聚焦工业领域的自动化、数字化、智能化，在“数字层、边缘层、控制层、驱动层、执行层、传感层”形成贯通式布局，持续为工业客户提供“用得起、用得好、易部署、易升级”的数自融合解决方案。'], website:'https://www.inovance.com/' },
+        'digital-shelf': { type:'INTERNSHIP / 01', title:'数字货架', paragraphs:['针对产品信息分散在说明书、业务表格及聊天记录中、缺少统一维护入口的问题，收集并清洗 200+ 款产品数据，设计 20+ 核心字段及数据维护规范，实现产品信息结构化沉淀，核心字段完整率达到 96%。','梳理销售、产品、项目及管理层等近 10 类角色的信息查询场景与权限边界，完成数字货架的信息架构、页面导航、检索流程及可视化看板原型设计，并搭建 20+ 个角色化前端页面。','典型查询耗时由约 2—3 分钟缩短至约 30 秒，降低约 80%；同时设计 10+ 条数据处理及业务自动化流程。'] },
+        'ai-knowledge': { type:'INTERNSHIP / 02', title:'AI 智能机器人问答', paragraphs:['梳理产品说明书、技术文档、FAQ、售后 SOP 与标准问答等知识来源，规划“RAG 文档知识库 + 标准问答知识库”的双知识库架构。','围绕产品类型、型号、文档类型、版本与权限设计 Metadata；采用章节与语义结合的切片策略，提升知识召回的完整性和相关性。','设计问题识别与路由、标准问答匹配 / RAG 检索、上下文组装、答案生成、来源引用、无答案拒答与用户反馈的完整问答链路。','围绕知识命中、回答准确性、来源支撑与能力边界构建测试集，将整体回答准确率由 75% 提升至 91%。'] },
+        recruitment: { type:'INTERNSHIP / 03', title:'招聘候选人初筛与 Brief 工作流', paragraphs:['针对候选人资料分散、简历信息重复录入、初筛口径不统一及面试协调轮次多等问题，设计“资料收集—简历 Review—规则预审—人工确认—面试协同—状态跟进—Brief 汇总”闭环方案。','基于岗位标准提取候选人核心经历、匹配证据及待确认问题，生成结构化初筛卡；联动候选人可用时间与面试官日程生成可选时段。','单批简历整理耗时降低 75%，面试预约协调轮次由 5 轮降至 2 轮，覆盖 10 个岗位、100 名候选人。'] },
+        mcs: { type:'PERSONAL / 01', title:'悉尼大学 MCS 智能选课顾问 Agent', image:'assets/mcs-course-advisor-preview.png', imageAlt:'MCS Course Advisor 选课 Agent 产品界面', paragraphs:['针对课程信息分散、培养规则复杂等痛点，完成用户调研、需求拆解及中英文 Web MVP 设计，覆盖选课推荐、毕业学分与路径规划等场景。','构建覆盖 60 门课程的知识库及“AI 推荐＋规则校验”架构，实现学分、先修与学期负荷 3 类校验，并建立 18 个中英文评测场景。','推动 30+ 名学生内测、完成 50+ 次咨询，将选课规划时间缩短 80%+，硬性规则准确率达 95%，建议采纳率约 78%。'] },
+        medical: { type:'PERSONAL / 02', title:'医疗 AI 专科能力与安全治理平台', paragraphs:['面向临床科研人员及经授权医生，规划病例导入、数据质控、异常复核、风险评估和研究报告生成的一体化工具，通过 MCP 与 Skill 接入外部 Agent，减少用户在 Excel、分析脚本和报告文档之间的重复切换。','设计自动质控、字段来源定位及“修改建议—人工审批—版本化写入”流程，帮助医生快速发现数据问题，同时保证原始数据可追溯、修改可复核。','建立产品效果评价体系，将处理时间降低 30%、人工查找减少 50%、报告完整率达到 95%设为阶段验收目标。'] },
+        echonote: { type:'PERSONAL / 03', title:'EchoNote｜AI 播客学习笔记工具', paragraphs:['针对播客内容信息密度高、用户难以快速检索重点、英文播客理解和复盘成本高的问题，设计并落地一款本地优先的 AI 播客学习工具。','支持 RSS、Apple Podcasts 链接及本地音频导入；以带时间戳的逐字稿作为核心交互层，用户可随播放阅读、点击文本跳转音频，并对关键片段进行收藏和笔记。','接入语音转写、中文翻译和上下文问答能力，将“听不懂、找不到、记不住”的问题转化为可检索、可追溯的学习资料。'] },
+        doormind: { type:'PERSONAL / 04', title:'DoorMind（忘了么）', paragraphs:['从“用户出门时高频遗忘、传统时间提醒与真实行为脱节”的问题出发，设计地点离开触发的智能提醒产品；完成需求拆解、PRD、交互原型及 MVP 方案设计。','构建“地点设置—围栏监测—本地通知—清单确认”的核心闭环，支持家、学校、办公室等多地点清单、地图搜索选点、围栏半径配置及本地持久化。','采用本地优先架构，将 SwiftData、Core Location 与 UserNotifications 组合，保证核心提醒逻辑在弱网或无网状态下仍可运行；并以确认卡片实现 AI 编排与用户确认的人机协同。'] }
+      };
+      function selectPortfolioTab(key) {
+        tabButtons.forEach(function (button) { button.setAttribute('aria-selected', String(button.dataset.tab === key)); });
+        panels.forEach(function (panel) { panel.hidden = panel.dataset.panel !== key; });
+      }
+      function closeProjectDialog() { if (dialog.open) dialog.close(); }
+      function openProjectDialog(key) {
+        var detail = projectDetails[key];
+        if (!detail) return;
+        dialogType.textContent = detail.type;
+        dialogTitle.textContent = detail.title;
+        dialogMedia.replaceChildren();
+        if (detail.image) { var image = document.createElement('img'); image.src = detail.image; image.alt = detail.imageAlt; dialogMedia.appendChild(image); }
+        dialogBody.replaceChildren.apply(dialogBody, detail.paragraphs.map(function (text) { var paragraph = document.createElement('p'); paragraph.textContent = text; return paragraph; }));
+        if (detail.website) { var website = document.createElement('a'); website.href = detail.website; website.target = '_blank'; website.rel = 'noreferrer'; website.textContent = '公司官网 → ' + detail.website; dialogBody.appendChild(website); }
+        dialog.showModal();
+        closeButton.focus();
+      }
+      tabButtons.forEach(function (button) { button.addEventListener('click', function () { selectPortfolioTab(button.dataset.tab); }); });
+      document.querySelectorAll('.project-card[data-project]').forEach(function (card) { card.addEventListener('click', function () { openProjectDialog(card.dataset.project); }); });
+      document.querySelectorAll('.company-card[data-company]').forEach(function (card) { card.addEventListener('click', function () { openProjectDialog(card.dataset.company); }); });
+      closeButton.addEventListener('click', closeProjectDialog);
+      dialog.addEventListener('click', function (event) { if (event.target === dialog) closeProjectDialog(); });
+      dialog.addEventListener('cancel', function (event) { event.preventDefault(); closeProjectDialog(); });
+    }());
+  </script>
+</body>
+</html>

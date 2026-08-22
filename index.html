@@ -21,7 +21,7 @@
     .scroll-progress__track { position:relative; display:block; width:1px; height:120px; background:rgba(24,24,24,.15); }
     .scroll-progress__indicator { position:absolute; top:0; left:-1px; display:block; width:2px; min-height:36px; background:var(--ink); transition:height .12s ease-out; }
     .scroll-progress__value { padding-left:10px; }
-    .site-masthead { position:absolute; z-index:2; top:30px; left:50%; width:min(1120px,calc(100% - 80px)); color:var(--muted); font:12px/1.2 var(--mono); letter-spacing:.08em; transform:translateX(-50%); }
+    .site-masthead { position:absolute; z-index:2; top:30px; left:50%; width:min(760px,calc(100% - 80px)); color:var(--muted); font:12px/1.2 var(--mono); letter-spacing:.08em; transform:translateX(-50%); }
     .site-masthead a { color:inherit; text-decoration:none; }
     .site-masthead a:hover { color:var(--ink); }
     .hero-stage { min-height:100svh; display:grid; align-items:center; padding:110px 0 72px; }
@@ -97,18 +97,34 @@
     .project-card[disabled]:hover { box-shadow:none; transform:none; }
     .text-card { min-height:240px; }
     .text-card h3 { margin-top:18px; }
-    .project-dialog { width:min(960px,calc(100% - 48px),calc(100svh - 32px)); max-height:calc(100svh - 32px); padding:0; border:0; background:transparent; }
+    .project-dialog { width:min(960px,calc(100% - 48px),calc(100svh - 64px)); max-height:calc(100svh - 64px); padding:0; overflow:hidden; border:0; border-radius:24px; background:var(--paper); }
     .project-dialog::backdrop { background:rgba(17,17,17,.53); backdrop-filter:blur(5px); }
-    .project-dialog__sheet { position:relative; min-height:min(960px,calc(100svh - 32px)); max-height:calc(100svh - 32px); overflow:auto; padding:clamp(36px,5vw,64px); border-radius:24px; background:var(--paper); box-shadow:0 28px 90px rgba(0,0,0,.22); }
+    .project-dialog__sheet { position:relative; min-height:min(960px,calc(100svh - 64px)); max-height:calc(100svh - 64px); overflow:auto; padding:clamp(36px,5vw,64px); border-radius:24px; background:var(--paper); box-shadow:0 28px 90px rgba(0,0,0,.22); scrollbar-color:rgba(24,24,24,.28) var(--paper); scrollbar-width:thin; }
+    .project-dialog__sheet::-webkit-scrollbar { width:10px; }
+    .project-dialog__sheet::-webkit-scrollbar-track { margin:20px 0; background:var(--paper); }
+    .project-dialog__sheet::-webkit-scrollbar-thumb { border:3px solid var(--paper); border-radius:999px; background:rgba(24,24,24,.28); }
     .project-dialog__close { position:absolute; top:22px; right:23px; width:40px; height:40px; border:1px solid var(--line); border-radius:50%; background:#fffef9; color:var(--ink); font-size:28px; line-height:1; cursor:pointer; }
     .project-dialog h2 { max-width:820px; margin:15px 0 34px; font-size:clamp(40px,4vw,52px); font-weight:720; }
-    .dialog-media { margin:0 0 30px; overflow:hidden; border:1px solid var(--line); border-radius:16px; }
+    .dialog-media { position:relative; margin:0 0 30px; overflow:hidden; border:1px solid var(--line); border-radius:16px; }
     .dialog-media:empty { display:none; }
     .dialog-media__trigger { display:block; width:100%; padding:0; border:0; background:transparent; cursor:zoom-in; }
     .dialog-media__trigger:focus-visible { outline-offset:-5px; }
     .dialog-media img { display:block; width:100%; height:auto; }
-    .dialog-body { max-width:860px; font-size:18px; letter-spacing:-.025em; line-height:1.75; }
+    .dialog-media__nav { position:absolute; z-index:1; top:50%; display:grid; width:38px; height:38px; padding:0; border:1px solid rgba(255,255,255,.48); border-radius:50%; place-items:center; background:rgba(24,24,24,.36); color:#fff; font-size:27px; line-height:1; cursor:pointer; transform:translateY(-50%); transition:background .18s ease,transform .18s ease; }
+    .dialog-media__nav:hover,.dialog-media__nav:focus-visible { background:var(--ink); transform:translateY(-50%) scale(1.07); }
+    .dialog-media__nav--previous { left:16px; }
+    .dialog-media__nav--next { right:16px; }
+    .dialog-media__dots { position:absolute; z-index:1; bottom:15px; left:50%; display:flex; gap:7px; padding:7px 10px; border-radius:999px; background:rgba(24,24,24,.3); transform:translateX(-50%); }
+    .dialog-media__dot { width:6px; height:6px; padding:0; border:0; border-radius:50%; background:rgba(255,255,255,.62); cursor:pointer; transition:background .18s ease,transform .18s ease; }
+    .dialog-media__dot[aria-current="true"] { background:var(--yellow); transform:scale(1.25); }
+    .dialog-body { max-width:860px; font-size:16px; letter-spacing:-.025em; line-height:1.75; }
     .dialog-body p + p { margin-top:17px; }
+    .dialog-section + .dialog-section { margin-top:28px; }
+    .dialog-section__title { margin:0 0 10px; font-size:18px; font-weight:720; letter-spacing:-.02em; line-height:1.25; }
+    .dialog-meta { margin:0; color:var(--muted); font:12px/1.7 var(--mono); white-space:pre-line; }
+    .dialog-section p { margin:0; }
+    .dialog-section__list { display:grid; gap:8px; margin:0; padding-left:1.2em; }
+    .dialog-section__list li { padding-left:3px; }
     .dialog-body strong { color:var(--blue); }
     .dialog-body a { display:inline-block; margin-top:22px; color:var(--blue); font-weight:700; text-underline-offset:4px; }
     .image-preview-dialog { width:calc(100% - 32px); max-width:none; height:calc(100svh - 32px); padding:0; border:0; background:transparent; }
@@ -116,26 +132,46 @@
     .image-preview-dialog__stage { position:relative; display:grid; width:100%; height:100%; padding:68px 32px 32px; place-items:center; }
     .image-preview-dialog__stage img { display:block; max-width:100%; max-height:100%; object-fit:contain; filter:drop-shadow(0 16px 40px rgba(0,0,0,.4)); }
     .image-preview-dialog__close { position:absolute; top:16px; right:18px; width:44px; height:44px; border:1px solid rgba(255,255,255,.42); border-radius:50%; background:rgba(17,17,17,.65); color:#fff; font-size:30px; line-height:1; cursor:pointer; }
-    @media (max-width:640px) { .scroll-progress { display:none; } .project-dialog { width:calc(100% - 24px); max-height:calc(100svh - 24px); } .project-dialog__sheet { min-height:calc(100svh - 24px); max-height:calc(100svh - 24px); padding:44px 24px 30px; } .project-dialog__close { top:12px; right:12px; } .project-dialog h2 { margin-bottom:24px; } .image-preview-dialog { width:100%; height:100svh; } }
-    .contact-section { position:relative; width:min(760px,calc(100% - 80px)); min-height:92svh; margin:0 auto; padding:96px 0 72px; overflow:hidden; }
-    .contact-section::before,.contact-section::after { position:absolute; z-index:0; color:var(--ink); font:700 clamp(160px,25vw,300px)/.8 var(--mono); letter-spacing:-.12em; opacity:.045; pointer-events:none; user-select:none; }
-    .contact-section::before { top:36px; right:-.04em; content:"03"; }
-    .contact-section::after { right:-.03em; bottom:20px; content:"01"; }
-    .contact-section > * { position:relative; z-index:1; }
+    @media (max-width:640px) { .scroll-progress { display:none; } .project-dialog { width:calc(100% - 24px); max-height:calc(100svh - 48px); } .project-dialog__sheet { min-height:calc(100svh - 48px); max-height:calc(100svh - 48px); padding:44px 24px 30px; } .project-dialog__close { top:12px; right:12px; } .project-dialog h2 { margin-bottom:24px; } .image-preview-dialog { width:100%; height:100svh; } }
+    .contact-section { width:min(760px,calc(100% - 80px)); margin:0 auto; padding:72px 0 112px; }
     .contact-section__eyebrow { display:flex; align-items:center; gap:9px; color:var(--muted); font:700 12px/1.2 var(--mono); letter-spacing:.11em; }
     .contact-section__eyebrow::before { width:19px; height:3px; background:var(--yellow); content:""; }
     .contact-list { margin:34px 0 0; padding:0; list-style:none; }
-    .contact-row { display:grid; grid-template-columns:56px 1fr auto; align-items:center; gap:20px; min-height:86px; border-top:1px solid var(--line); }
-    .contact-row__number { color:var(--muted); font:12px var(--mono); letter-spacing:.08em; }
-    .contact-row strong { font-size:clamp(26px,3.2vw,42px); font-weight:680; letter-spacing:-.03em; line-height:1; }
+    .contact-row { display:grid; grid-template-columns:1fr auto; align-items:center; gap:16px; min-height:78px; border-top:1px solid var(--line); }
+    .contact-row strong { position:relative; z-index:0; display:inline-block; width:max-content; font-size:clamp(18px,2vw,26px); font-weight:680; letter-spacing:-.03em; line-height:1; }
+    .contact-row strong::after { position:absolute; z-index:-1; right:-.06em; bottom:.02em; left:-.06em; height:.32em; background:var(--yellow); content:""; transform:scaleX(0); transform-origin:left center; transition:transform .3s cubic-bezier(.22,1,.36,1); }
+    .contact-row:hover strong::after,.contact-row:focus-within strong::after { transform:scaleX(1); }
     .contact-row__value,.contact-row__link { color:var(--ink); font:14px var(--mono); text-decoration:none; }
     .contact-row__link:hover,.contact-row__link:focus-visible { color:var(--blue); text-decoration:underline; text-underline-offset:4px; }
     .contact-row__link:focus-visible { outline:2px solid var(--blue); outline-offset:4px; }
     @media (max-width:640px) {
-      .contact-section { width:calc(100% - 48px); min-height:92svh; padding:72px 0 48px; }
-      .contact-section::before,.contact-section::after { display:none; }
-      .contact-row__number { display:none; }
-      .contact-row { grid-template-columns:1fr auto; gap:12px; min-height:76px; }
+      .site-masthead { top:20px; width:calc(100% - 40px); font-size:11px; }
+      .hero-stage { min-height:auto; padding:104px 0 72px; }
+      .hero-stage__inner,.portfolio-stage { width:calc(100% - 40px); }
+      .hero-stage__inner { display:flex; flex-direction:column; }
+      .hero-stage h1 { max-width:none; margin:16px 0 24px; font-size:clamp(64px,20vw,76px); line-height:.88; }
+      .hero-stage__art { position:relative; top:auto; right:auto; order:2; width:min(100%,330px); height:340px; margin:4px auto 0; }
+      .hero-stage__roles { order:3; gap:7px 10px; font-size:10px; line-height:1.5; letter-spacing:.06em; }
+      .hero-stage__roles span + span::before { margin-right:10px; }
+      .scroll-cue { order:4; margin-top:36px; font-size:11px; }
+      .portfolio-section { padding:64px 0 92px; }
+      .portfolio-tabs { display:flex; justify-content:flex-start; gap:8px; margin:0 -20px 28px; padding:0 20px 7px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+      .portfolio-tabs::-webkit-scrollbar { display:none; }
+      .portfolio-tabs button { flex:0 0 auto; width:auto; height:42px; padding:0 4px; font-size:18px; }
+      .panel-heading { margin-bottom:22px; }
+      .panel-heading > p { margin-top:10px; font-size:13px; line-height:1.65; }
+      .info-card { grid-template-columns:1fr; height:auto; border-radius:18px; }
+      .info-card__copy { padding:28px 26px 18px; }
+      .info-card h3 { margin-bottom:13px; font-size:28px; white-space:nowrap; }
+      .info-card__meta { font-size:12px; line-height:1.65; }
+      .info-card__body { margin-top:15px; font-size:14px; line-height:1.62; }
+      .info-card__art { height:220px; padding:10px 24px 20px; }
+      .info-card__art img { max-height:205px; }
+      .dialog-body { font-size:15px; line-height:1.72; }
+      .dialog-section + .dialog-section { margin-top:22px; }
+      .dialog-section__title { margin-bottom:9px; font-size:17px; }
+      .contact-section { width:calc(100% - 48px); padding:56px 0 72px; }
+      .contact-row { gap:12px; min-height:70px; }
     }
     @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition-duration:.01ms !important; } }
   </style>
@@ -143,11 +179,11 @@
 <body class="grid-canvas">
   <a class="skip-link" href="#portfolio">跳至项目内容</a>
   <aside class="scroll-progress" aria-hidden="true"><span class="scroll-progress__track"><span class="scroll-progress__indicator" id="scroll-progress-indicator"></span></span><span class="scroll-progress__value" id="scroll-progress-value">00</span></aside>
-  <header class="site-masthead"><a href="https://everythinganda.cn" target="_blank" rel="noreferrer">郝安达 / AI PRODUCT MANAGER / 24</a></header>
+  <header class="site-masthead">ANDA</header>
   <main>
     <section class="hero-stage" id="profile" aria-labelledby="profile-title">
       <div class="hero-stage__inner">
-        <p class="eyebrow">HAO ANDA</p>
+        <p class="eyebrow">郝安达</p>
         <h1 id="profile-title">Anda<span class="hero-title-line">makes</span><span class="hero-title-line">things.</span></h1>
         <p class="hero-stage__roles"><span>AI PRODUCT MANAGER</span><span>AI BUILDER</span><span>PRODUCT THINKER</span></p>
         <figure class="hero-stage__art" aria-label="挥手的人物和小狗插画"><img src="人物抠图/boy-yellow-top-navy-trousers-dog-transparent.png" alt="穿黄色上衣的挥手人物和小狗插画"></figure>
@@ -220,9 +256,9 @@
   <footer class="contact-section" aria-labelledby="contact-title">
     <p class="contact-section__eyebrow" id="contact-title">联系 / ELSEWHERE</p>
     <ol class="contact-list">
-      <li class="contact-row"><span class="contact-row__number" aria-hidden="true">01</span><strong>电话</strong><a class="contact-row__link" href="tel:18632558659">186 3255 8659</a></li>
-      <li class="contact-row"><span class="contact-row__number" aria-hidden="true">02</span><strong>微信</strong><span class="contact-row__value">18632558659</span></li>
-      <li class="contact-row"><span class="contact-row__number" aria-hidden="true">03</span><strong>邮箱</strong><a class="contact-row__link" href="mailto:haoad2024@163.com">haoad2024@163.com</a></li>
+      <li class="contact-row"><strong>电话</strong><a class="contact-row__link" href="tel:18632558659">186 3255 8659</a></li>
+      <li class="contact-row"><strong>微信</strong><span class="contact-row__value">18632558659</span></li>
+      <li class="contact-row"><strong>邮箱</strong><a class="contact-row__link" href="mailto:haoad2024@163.com">haoad2024@163.com</a></li>
     </ol>
   </footer>
 
@@ -261,14 +297,18 @@
       var scrollProgressValue = document.querySelector('#scroll-progress-value');
       var projectDetails = {
         inovance: { type:'COMPANY', title:'汇川技术', paragraphs:['深圳市汇川技术股份有限公司成立于2003年，是一家全球领先、创新驱动的工业科技集团。汇川技术依托在自动化、数字化、智能化领域的深厚技术积淀，构建起工业自动化与数字化、新能源汽车动力系统、智能机器人、数字能源四大技术同源、协同发展的业务生态，致力于为全球客户提供智能、高效、绿色、安全的综合产品和解决方案。','公司现有员工2万余人，总部位于深圳，生产基地位于苏州、岳阳、南京、上海、济南、嘉兴、长春、匈牙利等地，并在全球30多个国家和地区设有常驻机构和服务中心。2025年公司实现营业总收入451亿元，较上年同期增长22%；实现营业利润50.5亿元，较上年同期增长18%。','汇川技术聚焦工业领域的自动化、数字化、智能化，在“数字层、边缘层、控制层、驱动层、执行层、传感层”形成贯通式布局，持续为工业客户提供“用得起、用得好、易部署、易升级”的数自融合解决方案。'], website:'https://www.inovance.com/', websiteLabel:'公司官网' },
-        'digital-shelf': { type:'INTERNSHIP / 01', title:'数字货架', paragraphs:['针对产品信息分散、缺少统一查询入口等问题，收集并清洗 200+ 款产品数据，设计 20+ 核心字段及数据维护规范，实现产品信息结构化沉淀，核心字段完整率达到 97%。','梳理销售、产品经理、成本经理等近 10 类角色的信息查询场景与权限边界，完成数字货架的信息架构、页面导航、检索流程及可视化看板原型设计，并搭建 20+ 个角色化前端页面。将原本需要跨说明书及多个内部系统完成的产品查询收敛至统一入口，典型查询耗时由约 3—5 分钟缩短至约 30 秒，降低 80% 以上。','搭建产品审核、上下架、信息补录及经营数据更新等 10+ 条自动化流程，实现审批状态流转与数据看板自动更新。'] },
-        'ai-knowledge': { type:'INTERNSHIP / 02', title:'智能问答机器人', paragraphs:['针对硬件产品资料分散、版本混乱及访问边界不清等问题，规划“标准问答库＋结构化产品主数据＋RAG 文档库”的混合知识架构，制定差异化清洗及切片规则，并通过产品型号、文档版本和角色权限等 Metadata 完成知识关联与治理。','围绕销售、售前和售后等产品咨询场景，设计标准问答、结构化查询与 RAG 检索的混合路由；复杂问题经 Metadata 过滤、混合召回及 Rerank 后生成可追溯答案；同时设计来源引用、信息不足追问、无证据拒答、转人工及用户反馈闭环，推动问答能力接入飞书机器人。','构建覆盖知识命中、事实准确、来源支撑及拒答边界的固定测试集，基于链路日志对 Bad Case 分层归因，迭代知识内容、检索及回答策略；经全量回归测试，将端到端通过率由 77% 提升至 96%。'] },
-        recruitment: { type:'INTERNSHIP / 03', title:'招聘流程效率工具', paragraphs:['针对 HR 完成人工初筛后候选人信息整理耗时、面试协调轮次多、待入职资料重复核验及岗位进度难以追踪等问题，结合招聘 SOP 设计岗位标准配置、AI 信息归纳、初筛 Brief、面试预约、入职资料预审及招聘数据归档等功能。','实现从候选人入围到入职交接的闭环管理，覆盖岗位标准配置、候选人信息整理、面试协同、资料预审与招聘进度归档。','经试用及历史任务回放，候选人信息整理、面试协调及入职资料预审等关键环节的综合处理耗时缩短约 60%，并实现必填字段、必要附件及 Offer 关键信息一致性的全量规则校验。'] },
-        mcs: { type:'PERSONAL / 01 · 2026.06 — 2026.08', title:'悉尼大学选课 Agent', image:'assets/mcs-course-advisor-preview.png', imageAlt:'MCS Course Advisor 选课 Agent 产品界面', website:'https://andastudio.site', websiteLabel:'访问项目网站', paragraphs:['针对悉尼大学计算机专业课程信息分散、培养规则复杂及选课决策耗时等问题，完成用户需求分析与 Web MVP 设计，覆盖课程推荐、毕业学分及路径规划等核心场景。','整合专业 Handbook、课程 Outline 与社区评价，构建 60 门课程知识库并封装为选课顾问 Skill；通过 System Prompt 与 Tool Calling 编排“画像识别—课程检索—规则校验—方案生成”链路，约束模型先查证后回答，异常时回退规则模式，降低幻觉与违规推荐风险。','建立 30 个典型及边界场景，结合 20+ 名学生、90+ 次内测咨询开展 Bad Case 分析，持续迭代学生画像、社区评价、Skill 规则、Prompt 工具调用及风险提示；将选课规划时间缩短约 50%，建议采纳率达到 80%。'] },
-        medical: { type:'PERSONAL / 02 · 2026.02 — 2026.05', title:'医疗 AI 专科能力工具', paragraphs:['与华北理工大学医学院合作，面向临床科研人员，基于 800+ 例急性胰腺炎病例规划风险评估工具，梳理 32 项直接输入，覆盖脱敏病例导入、数据质控、低中高风险分层、原因解释、复评提醒及研究报告生成，并通过 MCP 与 Skill 接入外部 AI Agent。','搭建从病例导入、数据质控、风险评估到报告审计的完整流程，设计异常复核、人工审批和版本管理机制，实现科研评估标准化流转、原始数据可追溯及修改结果可复核。','构建覆盖 100 例脱敏病例的产品测试集，通过 Prompt A/B、Skill 增量及 Bad Case 迭代，将有效回答完成率由 70% 提升至 97%，输出完整率由 82% 提升至 96%，核心数值与风险层级一致率达到 100%，诊疗越界率降至 0。'] },
+        'digital-shelf': { type:'INTERNSHIP / 01', title:'数字货架', meta:'产品经理 · 2025.12 — 2026.03\nB 端产品 · 数据治理 · 原型设计 · 流程自动化 · 数据可视化', background:'企业 200 余款产品的参数、技术资料与经营数据分散在说明书、表格、历史沟通及多个内部系统中。销售、产品与成本等角色需要反复切换资料，容易出现查询耗时、口径不一致与信息缺失。', work:[{ title:'数据整理与建模', items:['收集、清洗并汇总 200+ 款产品数据，处理字段缺失、命名不统一、重复记录及口径不一致等问题。','围绕基础属性、技术参数、资料、经营数据和生命周期状态设计 20+ 核心字段，并制定字段含义、填写要求与更新规范。','通过字段补录与数据校验，将核心字段完整率提升至 97%。'] },{ title:'角色场景与产品体验', items:['梳理销售、产品经理、成本经理及管理人员等近 10 类角色的查询场景、信息需求与权限边界。','完成信息架构、页面导航、检索筛选、产品详情与经营看板原型，并搭建 20+ 个角色化前端页面。','将典型查询收敛为“搜索或筛选产品—查看详情—查看资料及数据看板”的统一链路。'] },{ title:'持续维护流程', items:['围绕新产品录入、上架下架、信息变更、缺失反馈和经营数据更新搭建 10+ 条自动化流程。','设计月度数据“创建任务—提交—校验—异常退回—审核—指标计算—看板刷新”闭环，连接销售、成本与产品角色。'] }], outcomes:['统一整理并管理 200+ 款产品数据，建立 20+ 核心字段及维护规范。','覆盖近 10 类业务角色，完成 20+ 个角色化前端页面与 10+ 条自动化流程。','典型产品查询由约 3—5 分钟缩短至约 30 秒，耗时降低 80% 以上。'] },
+        'ai-knowledge': { type:'INTERNSHIP / 02', title:'智能问答机器人', meta:'产品经理 · 2025.12 — 2026.03\nAI 产品 · RAG · 知识库治理 · 问答产品设计 · 产品评测', background:'销售、售前与售后人员查询产品参数、安装方式或故障处理时，需要在说明书、参数表、FAQ、SOP、内部系统与历史记录之间反复切换，也难以确认资料版本与权限边界。', work:[{ title:'场景与 MVP 范围', items:['从问题频率、业务价值、知识完备度、标准化程度和回答风险评估优先级，首期聚焦产品介绍、型号编码、参数、安装配置、协议接入和常见故障等场景。','明确不覆盖复杂现场诊断、经营决策及缺少权威资料的长尾问题，避免“什么都能回答但不可相信”。'] },{ title:'知识架构与治理', items:['规划“标准问答库＋结构化产品主数据＋RAG 文档库”的混合知识架构：稳定高频问题走标准答案，编码与参数走精确查询，复杂说明类问题进入文档检索。','针对 FAQ、参数表、安装步骤、故障码等资料制定差异化清洗与切片规则，保留完整语义。','以产品编码、型号、系列、文档类型、版本、生效状态、章节路径与角色权限等 Metadata 建立关联，并在召回前完成权限与版本过滤。'] },{ title:'混合问答与飞书交互', items:['设计“权限校验—意图及实体识别—问题路由—Metadata 过滤—混合召回—Rerank—答案生成与来源引用”链路。','设计主动追问、无证据拒答、转人工、来源引用及有用/无用反馈闭环，并推动能力接入飞书机器人。'] },{ title:'评测与 Bad Case 迭代', items:['构建覆盖路由、知识命中、事实准确、引用支撑、无答案、资料冲突与权限边界的固定测试集。','基于链路日志将问题分层归因为知识、实体路由、Chunk 与 Metadata、召回排序、生成或拒答边界，并按层迭代。'] }], outcomes:['完成标准问答、结构化主数据与 RAG 文档库的混合知识架构及版本、权限治理规则。','建立来源引用、主动追问、无证据拒答、转人工和用户反馈机制，并接入飞书机器人。','通过全量回归将固定测试集端到端通过率由 77% 提升至 96%。'] },
+        recruitment: { type:'INTERNSHIP / 03', title:'招聘流程效率工具', meta:'AI 产品经理 · 2025.12 — 2026.03\nAI 产品 · 招聘流程 · 工作流自动化 · 规则校验 · 产品评测', background:'HR 完成人工初筛后仍需反复整理候选人履历与沟通记录、多轮协调面试时间、逐项核验入职资料，并在聊天、表格、文档与日历之间追踪岗位进度。', work:[{ title:'招聘 SOP 与人机边界', items:['将产品介入点限定在 HR 已人工确认的入围候选人之后，覆盖信息归纳、面试协同、入职预审与归档，不替代筛选或录用决策。','明确 AI 负责事实归纳和异常解释，规则负责必填、格式、附件与一致性校验，工作流负责提醒和数据写入，HR 保留最终决策。'] },{ title:'岗位标准与候选人 Brief', items:['设计岗位标准配置与版本确认，将 JD、业务补充要求和 HR 经验沉淀为必须条件、加分项、排除项与证据要求。','设计候选人卡与批量 Brief，分别输出可追溯事实、匹配依据、待确认项和下一步问题，降低横向比较与面试准备成本。'] },{ title:'面试协同与资料预审', items:['设计“可用时间收集—共同时间段计算—HR 确认—创建日程—提醒—反馈催办”流程；仅在关键条件完整且 HR 确认后创建正式日程。','将入职预审拆分为必填字段、格式、枚举映射、必要附件与 Offer 一致性校验；冲突或无依据的问题必须停留在 HR 复核节点。'] },{ title:'状态归档与回放评测', items:['规划岗位、候选人、面试安排、预审、待办与流程日志等对象，覆盖待联系、待约面、面试中、待复核、可交接等状态。','使用历史任务与脱敏资料回放，按岗位标准、输入数据、AI 归纳、规则、工作流状态和权限分类 Bad Case 并持续回归。'] }], outcomes:['建立从入围候选人归纳、面试协同到入职资料交接和招聘归档的闭环管理。','完成岗位标准、候选人卡、批量 Brief、面试简报、预审卡与招聘 Brief 等核心方案。','实现必填字段、必要附件与 Offer 关键信息一致性的全量校验，关键环节综合处理耗时缩短约 60%。'] },
+        mcs: { type:'PERSONAL / 01 · 2026.06 — 2026.08', title:'悉尼大学选课 Agent', image:'assets/mcs-course-advisor-preview.png', imageAlt:'MCS Course Advisor 选课 Agent 产品界面', website:'https://andastudio.site', websiteLabel:'访问项目网站', meta:'AI 产品经理 / 项目负责人 · 2026.06 — 2026.08\nAI Agent · 教育产品 · Web MVP · 知识治理 · Skill · Tool Calling · 产品评测', background:'悉尼大学计算机专业的培养规则、课程信息与学生经验分散在 Handbook、Outline、选课系统与社区中。学生还需同时核对学分类别、先修禁修、开课学期、课程负荷和路径选择，难以形成可靠方案。', work:[{ title:'MVP 场景与决策流程', items:['聚焦下一学期课程推荐、毕业学分检查、候选课程比较、方向与 Pathway 规划，以及最后一学期负荷风险识别。','设计“补充学生画像—识别剩余要求—检索候选课程—校验先修与归属—比较方向和负荷—生成方案—展示风险及官方确认事项”流程。','明确不替代 Sydney Student、学院审批、学分减免、签证要求与实时课表确认。'] },{ title:'知识库与证据治理', items:['整合 Handbook、课程 Outline/页面与社区评价，建立覆盖 60 门课程的知识库。','坚持“官方规则优先、社区经验辅助”：官方信息决定合规范围，社区经验仅用于同类课程之间的排序与风险提示。','整理课程代码、类别、开课学期、先修禁修、考核构成、技术负荷与社区信号；信息缺失时明确标记为需确认。'] },{ title:'Skill 与 Tool Calling 链路', items:['将领域规则、推荐策略与回答边界封装为选课顾问 Skill；Agent 负责理解问题和组织回答，Tool 负责检索、比较与确定性校验。','以 System Prompt 约束“先查证后回答”，完整方案需依次完成画像读取、候选研究与规则检查后才可生成。','设计学分类别、课程规则与学期负荷三类校验；API 异常时降级为确定性查询与校验模式。'] },{ title:'Web MVP 与评测迭代', items:['将结构化画像和对话式咨询结合，输出推荐课程、学分归属、理由、负荷风险、规则结果与官方确认事项。','建立 30 个典型及边界场景，并结合 20+ 名学生的 90+ 次内测咨询，按画像、知识、Skill、Prompt、工具调用和风险提示分析 Bad Case。'] }], outcomes:['完成面向悉尼大学计算机专业学生的选课 Agent 及 Web MVP，并建立覆盖 60 门课程的知识库。','实现“画像识别—课程检索—规则校验—方案生成”的可解释、可校验工作流。','选课信息检索、课程比较与方案整理时间缩短约 50%，建议采纳率达到 80%。'] },
+        medical: { type:'PERSONAL / 02 · 2026.02 — 2026.05', title:'医疗 AI 专科能力工具', meta:'AI 产品经理 · 2026.02 — 2026.05\n医疗 AI · 临床科研工具 · 数据治理 · MCP · Skill · Prompt 评测\n合作单位：华北理工大学医学院', background:'急性胰腺炎科研涉及多类病例数据。研究人员在整理病例、检查缺失与异常、风险评估、解释结果和生成报告时，若依赖表格、脚本与文档分别处理，容易出现重复操作、口径不一致与结果难以复核。', work:[{ title:'产品定位与安全边界', items:['将产品定位为临床科研辅助工具，而非自动诊断或治疗决策系统。风险模型提供数值与分层，AI 组织输出，专业人员负责异常确认、版本审批与最终判断。','明确不输出诊断、处方、剂量或强制治疗措施；复评提醒仅提示需要核对的信息与观察范围。'] },{ title:'病例输入与数据质控', items:['基于 800+ 例脱敏病例梳理 32 项直接输入，定义病例标识、字段值、数据状态与版本信息。','优先执行完整性、格式、异常值、单位、采集时间、来源与版本等质控；不通过时仅返回问题与复核建议，不生成风险结果。','设计“修改建议—人工审批—版本化写入—重新校验”机制，保留修改前后值、依据与操作记录。'] },{ title:'风险评估与报告流程', items:['搭建“脱敏病例导入—数据质控—风险评估—低中高风险分层—原因解释—复评提醒—研究报告—审计留痕”流程。','报告统一呈现病例版本、数据质量、风险层级、关联因素、复评提醒、模型版本与研究限制，持续保留数据警告。'] },{ title:'MCP、Skill 与评测', items:['通过 MCP 封装病例导入、校验、评估、解释、提醒和报告能力；Skill 约束调用顺序、版本要求与安全表达。','构建 100 例脱敏病例测试集，使用 Prompt A/B、Skill 增量与 Bad Case 分析迭代输入规则、调用路径、模板与评测标准。'] }], outcomes:['基于 800+ 例病例形成 32 项直接输入规范，覆盖导入、质控、分层、解释、提醒与报告生成。','完成异常复核、人工审批、版本管理与 MCP/Skill 外部 Agent 接入，保证数据和结果可追溯、可复核。','有效回答完成率由 70% 提升至 97%，输出完整率由 82% 提升至 96%，核心数值与风险层级一致率达到 100%，诊疗越界率降至 0。'] },
         echonote: { type:'PERSONAL / 03', title:'EchoNote｜AI 播客学习笔记工具', paragraphs:['针对播客内容信息密度高、用户难以快速检索重点、英文播客理解和复盘成本高的问题，设计并落地一款本地优先的 AI 播客学习工具。','支持 RSS、Apple Podcasts 链接及本地音频导入；以带时间戳的逐字稿作为核心交互层，用户可随播放阅读、点击文本跳转音频，并对关键片段进行收藏和笔记。','接入语音转写、中文翻译和上下文问答能力，将“听不懂、找不到、记不住”的问题转化为可检索、可追溯的学习资料。'] },
         doormind: { type:'PERSONAL / 04', title:'DoorMind（忘了么）', paragraphs:['从“用户出门时高频遗忘、传统时间提醒与真实行为脱节”的问题出发，设计地点离开触发的智能提醒产品；完成需求拆解、PRD、交互原型及 MVP 方案设计。','构建“地点设置—围栏监测—本地通知—清单确认”的核心闭环，支持家、学校、办公室等多地点清单、地图搜索选点、围栏半径配置及本地持久化。','采用本地优先架构，将 SwiftData、Core Location 与 UserNotifications 组合，保证核心提醒逻辑在弱网或无网状态下仍可运行；并以确认卡片实现 AI 编排与用户确认的人机协同。'] }
       };
+      projectDetails.mcs.images = [
+        { src:'assets/mcs-course-advisor-preview.png', alt:'MCS Course Advisor 选课 Agent 方案总览界面' },
+        { src:'assets/mcs-profile-panel.png', alt:'MCS Course Advisor 选课 Agent 个人资料界面' }
+      ];
       function selectPortfolioTab(key) {
         tabButtons.forEach(function (button) { button.setAttribute('aria-selected', String(button.dataset.tab === key)); });
         panels.forEach(function (panel) { panel.hidden = panel.dataset.panel !== key; });
@@ -287,14 +327,75 @@
         imagePreviewCloseButton.focus();
       }
       function closeImagePreview() { if (imagePreviewDialog.open) imagePreviewDialog.close(); }
+      function appendDialogSection(title, content, isList) {
+        var section = document.createElement('section');
+        var heading = document.createElement('h3');
+        heading.className = 'dialog-section__title';
+        heading.textContent = title;
+        section.className = 'dialog-section';
+        section.appendChild(heading);
+        if (isList) {
+          var list = document.createElement('ul');
+          list.className = 'dialog-section__list';
+          content.forEach(function (item) { var li = document.createElement('li'); li.textContent = item; list.appendChild(li); });
+          section.appendChild(list);
+        } else {
+          var paragraph = document.createElement('p');
+          paragraph.textContent = content;
+          section.appendChild(paragraph);
+        }
+        dialogBody.appendChild(section);
+      }
       function openProjectDialog(key) {
         var detail = projectDetails[key];
         if (!detail) return;
         dialogType.textContent = detail.type;
         dialogTitle.textContent = detail.title;
         dialogMedia.replaceChildren();
-        if (detail.image) { var trigger = document.createElement('button'); var image = document.createElement('img'); trigger.type = 'button'; trigger.className = 'dialog-media__trigger'; trigger.dataset.previewImage = detail.image; trigger.setAttribute('aria-label', '放大查看项目预览图'); image.src = detail.image; image.alt = detail.imageAlt; trigger.appendChild(image); trigger.addEventListener('click', function () { openImagePreview(detail.image, detail.imageAlt); }); dialogMedia.appendChild(trigger); }
-        dialogBody.replaceChildren.apply(dialogBody, detail.paragraphs.map(function (text) { var paragraph = document.createElement('p'); paragraph.textContent = text; return paragraph; }));
+        var images = detail.images || (detail.image ? [{ src:detail.image, alt:detail.imageAlt }] : []);
+        if (images.length) {
+          var activeImageIndex = 0;
+          var trigger = document.createElement('button');
+          var image = document.createElement('img');
+          var previous = images.length > 1 ? document.createElement('button') : null;
+          var next = images.length > 1 ? document.createElement('button') : null;
+          var dots = images.length > 1 ? document.createElement('div') : null;
+          function renderDialogImage() {
+            var activeImage = images[activeImageIndex];
+            image.src = activeImage.src;
+            image.alt = activeImage.alt;
+            trigger.dataset.previewImage = activeImage.src;
+            if (dots) { Array.prototype.forEach.call(dots.children, function (dot, index) { dot.setAttribute('aria-current', String(index === activeImageIndex)); }); }
+          }
+          trigger.type = 'button';
+          trigger.className = 'dialog-media__trigger';
+          trigger.setAttribute('aria-label', '放大查看项目预览图');
+          trigger.appendChild(image);
+          trigger.addEventListener('click', function () { var activeImage = images[activeImageIndex]; openImagePreview(activeImage.src, activeImage.alt); });
+          dialogMedia.appendChild(trigger);
+          if (previous) {
+            previous.type = 'button'; previous.className = 'dialog-media__nav dialog-media__nav--previous'; previous.textContent = '‹'; previous.setAttribute('aria-label', '上一张预览图');
+            next.type = 'button'; next.className = 'dialog-media__nav dialog-media__nav--next'; next.textContent = '›'; next.setAttribute('aria-label', '下一张预览图');
+            dots.className = 'dialog-media__dots';
+            images.forEach(function (_, index) { var dot = document.createElement('button'); dot.type = 'button'; dot.className = 'dialog-media__dot'; dot.setAttribute('aria-label', '查看第 ' + (index + 1) + ' 张预览图'); dot.addEventListener('click', function () { activeImageIndex = index; renderDialogImage(); }); dots.appendChild(dot); });
+            previous.addEventListener('click', function () { activeImageIndex = (activeImageIndex - 1 + images.length) % images.length; renderDialogImage(); });
+            next.addEventListener('click', function () { activeImageIndex = (activeImageIndex + 1) % images.length; renderDialogImage(); });
+            dialogMedia.appendChild(previous); dialogMedia.appendChild(next); dialogMedia.appendChild(dots);
+          }
+          renderDialogImage();
+        }
+        dialogBody.replaceChildren();
+        if (detail.background) {
+          var meta = document.createElement('p');
+          meta.className = 'dialog-meta';
+          meta.textContent = detail.meta;
+          dialogBody.appendChild(meta);
+          appendDialogSection('项目背景', detail.background, false);
+          detail.work.forEach(function (section) { appendDialogSection(section.title, section.items, true); });
+          appendDialogSection('项目成果', detail.outcomes, true);
+        } else {
+          detail.paragraphs.forEach(function (text) { var paragraph = document.createElement('p'); paragraph.textContent = text; dialogBody.appendChild(paragraph); });
+        }
         if (detail.website) { var website = document.createElement('a'); website.href = detail.website; website.target = '_blank'; website.rel = 'noreferrer'; website.textContent = (detail.websiteLabel || '相关链接') + ' → ' + detail.website; dialogBody.appendChild(website); }
         dialog.showModal();
         closeButton.focus();

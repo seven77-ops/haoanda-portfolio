@@ -111,6 +111,13 @@
     .dialog-media__trigger { display:block; width:100%; padding:0; border:0; background:transparent; cursor:zoom-in; }
     .dialog-media__trigger:focus-visible { outline-offset:-5px; }
     .dialog-media img { display:block; width:100%; height:auto; }
+    .dialog-media--portrait { overflow:visible; border-color:transparent; background:transparent; }
+    .dialog-media--portrait .dialog-media__trigger { display:grid; min-height:min(60svh,620px); place-items:center; }
+    .dialog-media--portrait img { width:auto; max-width:100%; height:min(60svh,620px); border:1px solid var(--line); border-radius:18px; object-fit:contain; }
+    .dialog-media__image--next { animation:dialog-image-next .48s cubic-bezier(.22,1,.36,1) both; }
+    .dialog-media__image--previous { animation:dialog-image-previous .48s cubic-bezier(.22,1,.36,1) both; }
+    @keyframes dialog-image-next { from { opacity:.18; transform:translateX(24px) scale(.985); } to { opacity:1; transform:translateX(0) scale(1); } }
+    @keyframes dialog-image-previous { from { opacity:.18; transform:translateX(-24px) scale(.985); } to { opacity:1; transform:translateX(0) scale(1); } }
     .dialog-media__nav { position:absolute; z-index:1; top:50%; display:grid; width:38px; height:38px; padding:0; border:1px solid rgba(255,255,255,.48); border-radius:50%; place-items:center; background:rgba(24,24,24,.36); color:#fff; font-size:27px; line-height:1; cursor:pointer; transform:translateY(-50%); transition:background .18s ease,transform .18s ease; }
     .dialog-media__nav:hover,.dialog-media__nav:focus-visible { background:var(--ink); transform:translateY(-50%) scale(1.07); }
     .dialog-media__nav--previous { left:16px; }
@@ -188,7 +195,7 @@
       .contact-section { width:calc(100% - 48px); padding:56px 0 72px; }
       .contact-row { gap:12px; min-height:70px; }
     }
-    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition-duration:.01ms !important; } }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
   </style>
 </head>
 <body class="grid-canvas">
@@ -324,6 +331,25 @@
         { src:'assets/mcs-course-advisor-preview.png', alt:'MCS Course Advisor 选课 Agent 方案总览界面' },
         { src:'assets/mcs-profile-panel.png', alt:'MCS Course Advisor 选课 Agent 个人资料界面' }
       ];
+      projectDetails.echonote.images = [
+        { src:'assets/echonote-demo-learning-workspace.png', alt:'EchoNote 播客学习工作台、时间轴逐字稿与 AI 伴读界面' },
+        { src:'assets/echonote-demo-import-podcast.png', alt:'EchoNote 搜索节目并选择单集导入的界面' },
+        { src:'assets/echonote-demo-notes.png', alt:'EchoNote 时间轴逐字稿与学习笔记界面' },
+        { src:'assets/echonote-demo-chinese-podcast.png', alt:'EchoNote 中文播客逐字稿与 AI 伴读界面' }
+      ];
+      projectDetails.doormind.mediaLayout = 'portrait';
+      projectDetails.doormind.images = [
+        { src:'assets/doormind-demo-01-home.png', alt:'DoorMind 首页与今日提醒清单' },
+        { src:'assets/doormind-demo-02-switch-location.png', alt:'DoorMind 首页切换地点面板' },
+        { src:'assets/doormind-demo-03-reminder-list.png', alt:'DoorMind 提醒清单与日期选择界面' },
+        { src:'assets/doormind-demo-04-new-reminder.png', alt:'DoorMind 创建地点提醒界面' },
+        { src:'assets/doormind-demo-05-ai-assistant.png', alt:'DoorMind AI 助手首页' },
+        { src:'assets/doormind-demo-06-ai-confirmation.png', alt:'DoorMind AI 提醒建议与确认执行界面' },
+        { src:'assets/doormind-demo-07-location-management.png', alt:'DoorMind 地点管理界面' },
+        { src:'assets/doormind-demo-08-create-location.png', alt:'DoorMind 地图选点与围栏设置界面' },
+        { src:'assets/doormind-demo-09-location-list.png', alt:'DoorMind 多地点围栏列表' },
+        { src:'assets/doormind-demo-10-settings.png', alt:'DoorMind 设置与提醒历史界面' }
+      ];
       function selectPortfolioTab(key) {
         tabButtons.forEach(function (button) { button.setAttribute('aria-selected', String(button.dataset.tab === key)); });
         panels.forEach(function (panel) { panel.hidden = panel.dataset.panel !== key; });
@@ -366,6 +392,7 @@
         if (!detail) return;
         dialogType.textContent = detail.type;
         dialogTitle.textContent = detail.title;
+        dialogMedia.classList.toggle('dialog-media--portrait', detail.mediaLayout === 'portrait');
         dialogMedia.replaceChildren();
         var images = detail.images || (detail.image ? [{ src:detail.image, alt:detail.imageAlt }] : []);
         if (images.length) {
@@ -375,11 +402,16 @@
           var previous = images.length > 1 ? document.createElement('button') : null;
           var next = images.length > 1 ? document.createElement('button') : null;
           var dots = images.length > 1 ? document.createElement('div') : null;
-          function renderDialogImage() {
+          function renderDialogImage(direction) {
             var activeImage = images[activeImageIndex];
             image.src = activeImage.src;
             image.alt = activeImage.alt;
             trigger.dataset.previewImage = activeImage.src;
+            image.classList.remove('dialog-media__image--next', 'dialog-media__image--previous');
+            if (direction) {
+              void image.offsetWidth;
+              image.classList.add(direction === 'previous' ? 'dialog-media__image--previous' : 'dialog-media__image--next');
+            }
             if (dots) { Array.prototype.forEach.call(dots.children, function (dot, index) { dot.setAttribute('aria-current', String(index === activeImageIndex)); }); }
           }
           trigger.type = 'button';
@@ -392,9 +424,9 @@
             previous.type = 'button'; previous.className = 'dialog-media__nav dialog-media__nav--previous'; previous.textContent = '‹'; previous.setAttribute('aria-label', '上一张预览图');
             next.type = 'button'; next.className = 'dialog-media__nav dialog-media__nav--next'; next.textContent = '›'; next.setAttribute('aria-label', '下一张预览图');
             dots.className = 'dialog-media__dots';
-            images.forEach(function (_, index) { var dot = document.createElement('button'); dot.type = 'button'; dot.className = 'dialog-media__dot'; dot.setAttribute('aria-label', '查看第 ' + (index + 1) + ' 张预览图'); dot.addEventListener('click', function () { activeImageIndex = index; renderDialogImage(); }); dots.appendChild(dot); });
-            previous.addEventListener('click', function () { activeImageIndex = (activeImageIndex - 1 + images.length) % images.length; renderDialogImage(); });
-            next.addEventListener('click', function () { activeImageIndex = (activeImageIndex + 1) % images.length; renderDialogImage(); });
+            images.forEach(function (_, index) { var dot = document.createElement('button'); dot.type = 'button'; dot.className = 'dialog-media__dot'; dot.setAttribute('aria-label', '查看第 ' + (index + 1) + ' 张预览图'); dot.addEventListener('click', function () { var direction = index < activeImageIndex ? 'previous' : 'next'; if (index === activeImageIndex) return; activeImageIndex = index; renderDialogImage(direction); }); dots.appendChild(dot); });
+            previous.addEventListener('click', function () { activeImageIndex = (activeImageIndex - 1 + images.length) % images.length; renderDialogImage('previous'); });
+            next.addEventListener('click', function () { activeImageIndex = (activeImageIndex + 1) % images.length; renderDialogImage('next'); });
             dialogMedia.appendChild(previous); dialogMedia.appendChild(next); dialogMedia.appendChild(dots);
           }
           renderDialogImage();
